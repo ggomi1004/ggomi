@@ -40,7 +40,7 @@
 		.heading h2 { margin: 0; font-size: clamp(40px, 7vw, 90px); line-height: .85; letter-spacing: -.05em; font-weight: 900; }
 		.heading p { max-width: 320px; margin: 0; color: var(--gray); font-size: 13px; line-height: 1.7; }
 
-		/* FEATURED - 유튜브 영상 섹션 (기존 스타일 및 구성 복원) */
+		/* FEATURED - 유튜브 영상 섹션 */
 		.feature { color: #171717; background: var(--paper); }
 		.feature .label { color: #536200; }
 		.film { position: relative; aspect-ratio: 16/8; overflow: hidden; background: #222; }
@@ -56,7 +56,7 @@
 		.video-card p { margin: 12px 0 0; font-size: 10px; letter-spacing: .1em; }
 		.video-card.is-selected p { color: #536200; font-weight: 700; }
 
-		/* ABOUT / STORY 섹션 (꼬미 프로필) */
+		/* ABOUT / STORY 섹션 */
 		.project { color: #171717; background: var(--point); }
 		.project-grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 8vw; align-items: center; }
 		.cover { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; box-shadow: 0 15px 35px rgba(0,0,0,0.15); }
@@ -65,7 +65,7 @@
 		.project-copy p { max-width: 520px; font-size: 15px; line-height: 1.85; color: #222; }
 		.credit { margin-top: 30px; padding-top: 18px; border-top: 1px solid rgba(23,23,23,0.25); font-size: 12px; line-height: 1.8; }
 
-		/* GALLERY 섹션 (꼬미 사진 4장) */
+		/* GALLERY 섹션 */
 		.visuals { background: var(--night); }
 		.gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; align-items: start; }
 		figure { margin: 0; cursor: pointer; position: relative; }
@@ -92,10 +92,10 @@
 		.photo-thumb img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; opacity: .55; transition: .2s; }
 		.photo-thumb.is-selected img, .photo-thumb:hover img { opacity: 1; }
 
-		/* 링크 & 푸터 */
+		/* 링크 & 푸터 (4분할 그리드로 정돈) */
 		.links { border-top: 1px solid var(--line); }
-		.link-list { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
-		.link-list a { display: flex; justify-content: space-between; padding: 26px 0; border-bottom: 1px solid var(--line); font-size: 12px; letter-spacing: .15em; font-weight: 600; }
+		.link-list { display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); }
+		.link-list a { display: flex; justify-content: space-between; padding: 26px 14px 26px 0; border-bottom: 1px solid var(--line); font-size: 12px; letter-spacing: .15em; font-weight: 600; }
 		.link-list a:hover { color: var(--point); }
 		footer { display: flex; justify-content: space-between; padding: 32px 7vw; color: var(--gray); font-size: 11px; letter-spacing: .12em; }
 
@@ -130,7 +130,7 @@
 	</header>
 
 	<main>
-		<!-- 1. 히어로 섹션 (소주병 인형 베고 자는 귀여운 사진) -->
+		<!-- 1. 히어로 섹션 -->
 		<section id="hero" class="hero">
 			<img src="https://raw.githubusercontent.com/ggomi1004/ggomi/main/ggomi0004.png" alt="쿨쿨 자고 있는 포메라니안 꼬미">
 			<div class="hero-copy">
@@ -145,7 +145,7 @@
 			<div class="vertical">SCROLL TO MEET GGOMI</div>
 		</section>
 
-		<!-- 2. 소개 및 일상 (초록공 물고 있는 사진) -->
+		<!-- 2. 소개 및 일상 -->
 		<section id="about" class="section project">
 			<div class="heading">
 				<div class="label">01 / MEET GGOMI</div>
@@ -170,7 +170,7 @@
 			</div>
 		</section>
 
-		<!-- 3. 기존 유튜브 동영상 섹션 완벽 복원 -->
+		<!-- 3. 유튜브 동영상 섹션 -->
 		<section id="featured" class="section feature">
 			<div class="heading">
 				<div>
@@ -207,7 +207,7 @@
 			</div>
 		</section>
 
-		<!-- 4. 꼬미 갤러리 섹션 (전달해주신 사진 4장 적용) -->
+		<!-- 4. 꼬미 갤러리 섹션 -->
 		<section id="visuals" class="section visuals">
 			<div class="heading">
 				<div>
@@ -248,7 +248,7 @@
 			<div id="photoThumbnails" class="photo-thumbnails" aria-label="사진 썸네일"></div>
 		</div>
 
-		<!-- 5. 공식 링크 -->
+		<!-- 5. 공식 링크 (네이버 블로그 링크 추가) -->
 		<section id="links" class="section links">
 			<div class="heading">
 				<div>
@@ -261,6 +261,7 @@
 				<a href="#hero">OFFICIAL WEBSITE <span>↗</span></a>
 				<a href="https://www.instagram.com/tktma3e?igsi=MXUzZmgwc3ZramdycQ%3D%3D" target="_blank" rel="noopener noreferrer">INSTAGRAM <span>↗</span></a>
 				<a href="https://youtube.com/channel/UCvX8emA2xi_bLN7APVKJJRg?si=1jZ-AJ7uN7ml_uyt" target="_blank" rel="noopener noreferrer">YOUTUBE <span>↗</span></a>
+				<a href="https://blog.naver.com/tktma3en" target="_blank" rel="noopener noreferrer">NAVER BLOG <span>↗</span></a>
 			</div>
 		</section>
 	</main>
@@ -271,7 +272,7 @@
 	</footer>
 
 	<script>
-		// 기존 유튜브 영상 재생 및 탭 전환 스크립트 복원
+		// 유튜브 영상 재생 및 탭 전환
 		const film = document.getElementById('film');
 		const playVideo = document.getElementById('playVideo');
 		if (playVideo) {
