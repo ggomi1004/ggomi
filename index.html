@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>IJ-ENT | THE NEXT CHAPTER</title>
+	<style>
+		:root { --night:#0b0b0b; --paper:#ece8df; --acid:#d9ff38; --gray:#94918a; --line:rgba(236,232,223,.24); }
+		* { box-sizing:border-box; }
+		html { scroll-behavior:smooth; }
+		body { margin:0; color:var(--paper); background:var(--night); font-family:Arial,sans-serif; }
+		a { color:inherit; text-decoration:none; }
+		button { font:inherit; cursor:pointer; }
+		.topbar { position:fixed; z-index:5; top:0; left:0; width:100%; display:flex; justify-content:space-between; padding:23px 5vw; mix-blend-mode:difference; }
+		.brand { font-size:18px; font-weight:800; letter-spacing:.16em; }
+		nav { display:flex; gap:28px; font-size:10px; font-weight:700; letter-spacing:.2em; }
+		nav a:hover { color:var(--acid); }
+		.hero { position:relative; min-height:100vh; display:flex; align-items:end; overflow:hidden; padding:0 7vw 8vw; }
+		.hero img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:grayscale(80%) contrast(1.15); opacity:.7; }
+		.hero:after { content:""; position:absolute; inset:0; background:linear-gradient(180deg,transparent 35%,rgba(0,0,0,.9)); }
+		.hero-copy { position:relative; z-index:1; }
+		.label { color:var(--acid); font-size:11px; font-weight:700; letter-spacing:.25em; }
+		h1 { margin:20px 0; font-size:clamp(65px,13vw,185px); line-height:.78; letter-spacing:-.09em; }
+		.meta { display:flex; gap:25px; font-size:11px; letter-spacing:.12em; }
+		.vertical { position:absolute; z-index:1; right:5vw; bottom:8vw; writing-mode:vertical-rl; font-size:10px; letter-spacing:.2em; }
+		.section { padding:130px 7vw; }
+		.heading { display:flex; justify-content:space-between; align-items:end; margin-bottom:42px; }
+		.heading h2 { margin:0; font-size:clamp(44px,8vw,105px); line-height:.8; letter-spacing:-.08em; }
+		.heading p { max-width:280px; margin:0; color:var(--gray); font-size:12px; line-height:1.6; }
+		.feature { color:#171717; background:var(--paper); }
+		.feature .label { color:#536200; }
+		.film { position:relative; aspect-ratio:16/8; overflow:hidden; background:#222; }
+		.film img { display:block; width:100%; height:100%; object-fit:cover; filter:saturate(.78); }
+		.play { position:absolute; top:50%; left:50%; border:1px solid rgba(255,255,255,.85); padding:17px 34px; color:#fff; background:rgba(0,0,0,.2); font-size:12px; letter-spacing:.25em; transform:translate(-50%,-50%); }
+		.play:hover { color:var(--acid); border-color:var(--acid); }
+		.film iframe { display:block; width:100%; height:100%; border:0; }
+		.caption { display:flex; justify-content:space-between; padding-top:16px; font-size:10px; letter-spacing:.15em; }
+		.video-list { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:34px; }
+		.video-card { border:0; padding:0; color:var(--ink); background:transparent; text-align:left; }
+		.video-card img { display:block; width:100%; aspect-ratio:16/9; object-fit:cover; filter:saturate(.78); transition:filter .25s, transform .25s; }
+		.video-card:hover img, .video-card:focus-visible img { filter:saturate(1); transform:translateY(-4px); }
+		.video-card p { margin:12px 0 0; font-size:10px; letter-spacing:.1em; }
+		.video-card.is-selected p { color:#536200; font-weight:700; }
+		.project { color:#171717; background:var(--acid); }
+		.project-grid { display:grid; grid-template-columns:1fr 1.15fr; gap:9vw; align-items:center; }
+		.cover { width:100%; aspect-ratio:1; object-fit:cover; filter:grayscale(100%); }
+		.type { font-size:11px; letter-spacing:.18em; }
+		.project h3 { margin:20px 0; font-size:clamp(55px,9vw,125px); line-height:.75; letter-spacing:-.09em; }
+		.project-copy p { max-width:500px; font-size:15px; line-height:1.8; }
+		.credit { margin-top:34px; padding-top:18px; border-top:1px solid #17171766; font-size:11px; line-height:1.8; }
+		.visuals { background:var(--night); }
+		.gallery { display:grid; grid-template-columns:repeat(12,1fr); gap:18px; align-items:start; }
+		figure { margin:0; }
+		figure:nth-child(1) { grid-column:span 5; }
+		figure:nth-child(2) { grid-column:7/span 3; margin-top:100px; }
+		figure:nth-child(3) { grid-column:10/span 3; margin-top:20px; }
+		figure img { display:block; width:100%; aspect-ratio:3/4; object-fit:cover; filter:grayscale(80%); transition:.3s; }
+		figure:hover img { filter:grayscale(0); transform:translateY(-6px); }
+		figcaption { padding-top:13px; font-size:10px; letter-spacing:.14em; }
+		.photo-list-button { margin-top:38px; border:1px solid var(--line); padding:18px 30px; color:var(--paper); background:transparent; font-size:11px; letter-spacing:.18em; }
+		.photo-list-button:hover { color:var(--acid); border-color:var(--acid); }
+		.photo-modal { position:fixed; z-index:10; inset:0; display:none; padding:7vh 7vw; color:var(--paper); background:rgba(11,11,11,.97); overflow:auto; }
+		.photo-modal.is-open { display:block; }
+		.photo-modal-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:28px; }
+		.photo-modal-title { margin:0; font-size:12px; letter-spacing:.2em; }
+		.photo-modal-close { border:1px solid var(--line); padding:10px 14px; color:var(--paper); background:transparent; font-size:18px; line-height:1; }
+		.photo-modal-close:hover { color:var(--acid); border-color:var(--acid); }
+		.photo-modal-image { display:block; width:100%; max-height:58vh; object-fit:contain; background:#161616; }
+		.photo-modal-caption { margin:16px 0 24px; color:var(--gray); font-size:10px; letter-spacing:.16em; }
+		.photo-thumbnails { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+		.photo-thumb { border:1px solid transparent; padding:0; background:transparent; }
+		.photo-thumb.is-selected { border-color:var(--acid); }
+		.photo-thumb img { display:block; width:100%; aspect-ratio:3/2; object-fit:cover; opacity:.65; }
+		.photo-thumb.is-selected img, .photo-thumb:hover img { opacity:1; }
+		.links { border-top:1px solid var(--line); }
+		.link-list { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--line); }
+		.link-list a { display:flex; justify-content:space-between; padding:22px 0; border-bottom:1px solid var(--line); font-size:11px; letter-spacing:.15em; }
+		.link-list a:hover { color:var(--acid); }
+		footer { display:flex; justify-content:space-between; padding:28px 7vw; color:var(--gray); font-size:10px; letter-spacing:.14em; }
+		@media (max-width:700px) {
+			nav { gap:12px; }
+			.hero { min-height:82vh; padding:0 7vw 18vw; } h1 { font-size:21vw; } .vertical { top:18%; right:4vw; bottom:auto; }
+			.section { padding:82px 7vw; } .heading { display:block; } .heading p { margin-top:24px; }
+			.film { aspect-ratio:4/3; } .project-grid { grid-template-columns:1fr; gap:42px; }
+			.gallery { gap:12px; } figure:nth-child(1) { grid-column:span 7; } figure:nth-child(2) { grid-column:8/span 5; margin-top:58px; } figure:nth-child(3) { grid-column:3/span 5; margin-top:10px; }
+			.link-list { grid-template-columns:1fr; } footer { display:block; line-height:2; }
+		}
+	</style>
+</head>
+<body>
+	<header class="topbar"><a class="brand" href="#hero">IJ-ENT</a><nav><a href="#featured">FILM</a><a href="#project">PROJECT</a><a href="#visuals">VISUALS</a><a href="#links">LINKS</a></nav></header>
+	<main>
+		<section id="hero" class="hero"><img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=2200&q=85" alt="무대 위 조명과 공연장의 실루엣"><div class="hero-copy"><div class="label">IJ-ENT PRESENTS</div><h1>THE<br>NEXT<br>CHAPTER</h1><div class="meta"><span>2026.09.04</span><span>NEW ERA / 01</span><span>6PM KST</span></div></div><div class="vertical">SCROLL TO DISCOVER</div></section>
+		<section id="featured" class="section feature"><div class="heading"><div><div class="label">01 / FEATURED</div><h2>OFFICIAL<br>FILM</h2></div><p>새로운 시선으로 시작하는 IJ-ENT의 첫 번째 프로젝트.</p></div><div id="film" class="film"><img src="https://img.youtube.com/vi/5p2PZTsFnQE/maxresdefault.jpg" alt="IJ-ENT 공식 영상 미리보기"><button id="playVideo" class="play" type="button" aria-label="공식 영상 재생">PLAY</button></div><div class="caption"><span>IJ-ENT / OFFICIAL FILM</span><span>WATCH FILM +</span></div><div class="video-list" aria-label="공식 영상 목록"><button class="video-card is-selected" type="button" data-video-id="EPE1zmA31nM"><img src="https://img.youtube.com/vi/EPE1zmA31nM/hqdefault.jpg" alt="IJ-ENT 공식 영상 01 미리보기"><p>OFFICIAL FILM 01</p></button><button class="video-card" type="button" data-video-id="Gf8qcCt1EgE"><img src="https://img.youtube.com/vi/Gf8qcCt1EgE/hqdefault.jpg" alt="IJ-ENT 공식 영상 02 미리보기"><p>OFFICIAL FILM 02</p></button><button class="video-card" type="button" data-video-id="DRuKiip4X2k"><img src="https://img.youtube.com/vi/DRuKiip4X2k/hqdefault.jpg" alt="IJ-ENT 공식 영상 03 미리보기"><p>OFFICIAL FILM 03</p></button><button class="video-card" type="button" data-video-id="OXqX-3Jz1Pw"><img src="https://img.youtube.com/vi/OXqX-3Jz1Pw/hqdefault.jpg" alt="IJ-ENT 공식 영상 04 미리보기"><p>OFFICIAL FILM 04</p></button></div></section>
+		<section id="project" class="section project"><div class="heading"><div class="label">02 / PROJECT</div><p>익숙한 오늘을 넘어, 우리만의 다음 장면을 설계합니다.</p></div><div class="project-grid"><img class="cover" src="https://raw.githubusercontent.com/InJeonPark/ij-ent2/refs/heads/main/2026-09-05%20161305.png?auto=format&fit=crop&w=1200&q=85" alt="프로젝트 커버 이미지"><div class="project-copy"><div class="type">IJ-ENT / DIGITAL PROJECT</div><h3>VIEW<br>01</h3><p>일과 아이디어가 만나는 순간을 기록합니다. 더 자연스럽고 자유로운 모습으로 과거와 현재를 연결하며, 또 하나의 클래식을 만들어 갑니다.</p><div class="credit"><strong>CREDIT</strong><br>Creative direction by IJ-ENT<br>Visual identity / Studio IJ<br>Release 2026.09.04</div></div></div></section>
+		<section id="visuals" class="section visuals"><div class="heading"><div><div class="label">03 / VISUALS</div><h2>CONCEPT<br>STILLS</h2></div><p>LOOK 01 — 03<br>우리의 새로운 장면을 만나보세요.</p></div><div class="gallery"><figure><img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?auto=format&fit=crop&w=1000&q=85" alt="콘셉트 스틸 룩 01"><figcaption>LOOK 01 / AFTER LIGHT</figcaption></figure><figure><img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=800&q=85" alt="콘셉트 스틸 룩 02"><figcaption>LOOK 02 / IN MOTION</figcaption></figure><figure><img src="https://images.unsplash.com/photo-1501386761578-eac5c94b800a?auto=format&fit=crop&w=800&q=85" alt="콘셉트 스틸 룩 03"><figcaption>LOOK 03 / ONE AND ONLY</figcaption></figure></div><button id="openPhotos" class="photo-list-button" type="button">VIEW ALL PHOTOS <span>→</span></button></section>
+		<div id="photoModal" class="photo-modal" role="dialog" aria-modal="true" aria-labelledby="photoModalTitle"><div class="photo-modal-header"><h2 id="photoModalTitle" class="photo-modal-title">CONCEPT STILLS / 01 — 03</h2><button id="closePhotos" class="photo-modal-close" type="button" aria-label="사진 목록 닫기">×</button></div><img id="modalImage" class="photo-modal-image" src="" alt=""><p id="modalCaption" class="photo-modal-caption"></p><div id="photoThumbnails" class="photo-thumbnails" aria-label="사진 목록"></div></div>
+		<section id="links" class="section links"><div class="heading"><div><div class="label">04 / OFFICIAL LINKS</div><h2>FOLLOW<br>THE VIEW</h2></div><p>프로젝트의 새로운 소식과 다음 장면을 확인하세요.</p></div><div class="link-list"><a href="#hero">OFFICIAL WEBSITE <span>↗</span></a><a href="https://www.instagram.com/tktma3e?igsi=MXUzZmgwc3ZramdycQ%3D%3D" target="_blank" rel="noopener noreferrer">INSTAGRAM <span>↗</span></a><a href="https://youtube.com/channel/UCvX8emA2xi_bLN7APVKJJRg?si=1jZ-AJ7uN7ml_uyt" target="_blank" rel="noopener noreferrer">YOUTUBE <span>↗</span></a></div></section>
+	</main>
+	<footer><span>IJ-ENT / THE NEXT CHAPTER</span><span>© 2026 IJ-ENT. ALL RIGHTS RESERVED.</span></footer>
+	<script>
+		const film = document.getElementById('film');
+		const playVideo = document.getElementById('playVideo');
+		playVideo.addEventListener('click', () => {
+			film.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/5p2PZTsFnQE?autoplay=1&rel=0" title="IJ-ENT 공식 영상" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
+		});
+		document.querySelectorAll('.video-card').forEach(card => {
+			card.addEventListener('click', () => {
+				document.querySelectorAll('.video-card').forEach(item => item.classList.remove('is-selected'));
+				card.classList.add('is-selected');
+				film.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${card.dataset.videoId}?autoplay=1&rel=0" title="IJ-ENT 공식 영상" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
+				film.scrollIntoView({ behavior: 'smooth', block: 'center' });
+			});
+		});
+		const photoModal = document.getElementById('photoModal');
+		const modalImage = document.getElementById('modalImage');
+		const modalCaption = document.getElementById('modalCaption');
+		const photoThumbnails = document.getElementById('photoThumbnails');
+		const photoFigures = [...document.querySelectorAll('.gallery figure')];
+		const photoData = photoFigures.map(figure => ({
+			src: figure.querySelector('img').src,
+			alt: figure.querySelector('img').alt,
+			caption: figure.querySelector('figcaption').textContent
+		}));
+		let selectedPhoto = 0;
+		const showPhoto = index => {
+			selectedPhoto = index;
+			const photo = photoData[index];
+			modalImage.src = photo.src;
+			modalImage.alt = photo.alt;
+			modalCaption.textContent = photo.caption;
+			photoThumbnails.querySelectorAll('.photo-thumb').forEach((thumb, thumbIndex) => thumb.classList.toggle('is-selected', thumbIndex === index));
+		};
+		photoData.forEach((photo, index) => {
+			const thumbnail = document.createElement('button');
+			thumbnail.className = 'photo-thumb';
+			thumbnail.type = 'button';
+			thumbnail.innerHTML = `<img src="${photo.src}" alt="${photo.alt}">`;
+			thumbnail.addEventListener('click', () => showPhoto(index));
+			photoThumbnails.appendChild(thumbnail);
+		});
+		const openPhotos = () => {
+			photoModal.classList.add('is-open');
+			document.body.style.overflow = 'hidden';
+			showPhoto(selectedPhoto);
+		};
+		document.getElementById('openPhotos').addEventListener('click', openPhotos);
+		photoFigures.forEach((figure, index) => {
+			figure.addEventListener('click', () => {
+				selectedPhoto = index;
+				openPhotos();
+			});
+		});
+		document.getElementById('closePhotos').addEventListener('click', () => {
+			photoModal.classList.remove('is-open');
+			document.body.style.overflow = '';
+		});
+	</script>
+</body>
+</html>
